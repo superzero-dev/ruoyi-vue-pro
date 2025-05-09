@@ -1,5 +1,5 @@
 ### 请求 /infra/job/sync 接口 => 成功
-POST {{baseUrl}}/infra/job/sync
+POST http://127.0.0.1:48080/admin-api/infra/job/sync
 Content-Type: application/json
 tenant-id: {{adminTenantId}}
 Authorization: Bearer {{token}}

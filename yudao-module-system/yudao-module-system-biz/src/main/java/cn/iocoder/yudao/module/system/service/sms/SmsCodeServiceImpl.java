@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.system.service.sms;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
+import cn.iocoder.yudao.framework.common.util.spring.SpringUtils;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
@@ -78,6 +79,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
 
     @Override
     public void useSmsCode(SmsCodeUseReqDTO reqDTO) {
+        if (!SpringUtils.isProd()) {
+            return;
+        }
         // 检测验证码是否有效
         SmsCodeDO lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
         // 使用验证码
@@ -87,7 +91,10 @@ public class SmsCodeServiceImpl implements SmsCodeService {
 
     @Override
     public void validateSmsCode(SmsCodeValidateReqDTO reqDTO) {
-        validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
+        if (SpringUtils.isProd()) {
+            // 只在生产环境校验短信验证码，其他环境直接通过
+            validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
+        }
     }
 
     private SmsCodeDO validateSmsCode0(String mobile, String code, Integer scene) {

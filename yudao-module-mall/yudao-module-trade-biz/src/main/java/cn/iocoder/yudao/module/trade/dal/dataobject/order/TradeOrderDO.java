@@ -321,7 +321,7 @@ public class TradeOrderDO extends BaseDO {
      */
     private Long seckillActivityId;
 
-    /**
+    /**计算快递运费时，找不到 SKU
      * 砍价活动编号
      *
      * 关联 BargainActivityDO 的 id 字段
