@@ -53,3 +53,4 @@ application-my.yaml
 /yudao-ui-app/unpackage/
 **/.DS_Store
 yudao-ui/yudao-ui-admin-vue3
+yudao-ui/yudao-ui-mall-uniapp
