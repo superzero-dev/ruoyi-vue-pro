@@ -33,11 +33,11 @@
         </dependency>
 
         <!-- 会员中心。默认注释，保证编译速度 -->
-        <dependency>
-            <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-member-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.boot</groupId>-->
+<!--            <artifactId>yudao-module-member-biz</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
 
         <!-- 数据报表。默认注释，保证编译速度 -->
 <!--        <dependency>-->
@@ -52,25 +52,25 @@
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
         <!-- 支付服务。默认注释，保证编译速度 -->
-        <dependency>
-            <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-pay-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.boot</groupId>-->
+<!--            <artifactId>yudao-module-pay-biz</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
 
         <!-- 微信公众号模块。默认注释，保证编译速度 -->
-        <dependency>
-            <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-mp-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.boot</groupId>-->
+<!--            <artifactId>yudao-module-mp-biz</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
 
         <!-- 商城相关模块。默认注释，保证编译速度-->
-        <dependency>
-            <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-promotion-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.boot</groupId>-->
+<!--            <artifactId>yudao-module-promotion-biz</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>cn.iocoder.boot</groupId>
             <artifactId>yudao-module-product-biz</artifactId>
