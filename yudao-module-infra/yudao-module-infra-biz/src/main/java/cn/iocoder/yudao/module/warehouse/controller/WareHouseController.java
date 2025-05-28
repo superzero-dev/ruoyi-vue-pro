@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.infra.controller;
+package cn.iocoder.yudao.module.warehouse.controller;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.infra.controller.app.file.vo.AppFileUploadReqVO;
