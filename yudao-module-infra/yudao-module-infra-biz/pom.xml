@@ -106,6 +106,12 @@
             <artifactId>spring-boot-admin-starter-server</artifactId> <!-- 实现 Spring Boot Admin Server 服务端 -->
         </dependency>
 
+        <dependency>
+            <groupId>com.huaweicloud</groupId>
+            <artifactId>esdk-obs-java</artifactId>
+            <version>3.25.4</version>
+        </dependency>
+
         <!-- 三方云服务相关 -->
         <dependency>
             <groupId>commons-net</groupId>

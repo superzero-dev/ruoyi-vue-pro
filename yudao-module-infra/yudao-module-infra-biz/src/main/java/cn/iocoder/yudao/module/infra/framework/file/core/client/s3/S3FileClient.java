@@ -4,18 +4,13 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.AbstractFileClient;
-import com.amazonaws.HttpMethod;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
+import com.obs.services.ObsClient;
+import com.obs.services.model.AccessControlList;
+import com.obs.services.model.ObjectMetadata;
+import com.obs.services.model.ObsObject;
+import com.obs.services.model.PutObjectRequest;
 
 import java.io.ByteArrayInputStream;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 基于 S3 协议的文件客户端，实现 MinIO、阿里云、腾讯云、七牛云、华为云等云服务
@@ -26,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
-    private AmazonS3Client client;
+    private ObsClient client;
 
     public S3FileClient(Long id, S3FileClientConfig config) {
         super(id, config);
@@ -38,31 +33,9 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
         if (StrUtil.isEmpty(config.getDomain())) {
             config.setDomain(buildDomain());
         }
+
         // 初始化客户端
-        client = (AmazonS3Client)AmazonS3ClientBuilder.standard()
-                .withCredentials(buildCredentials())
-                .withEndpointConfiguration(buildEndpointConfiguration())
-                .build();
-    }
-
-    /**
-     * 基于 config 秘钥，构建 S3 客户端的认证信息
-     *
-     * @return S3 客户端的认证信息
-     */
-    private AWSStaticCredentialsProvider buildCredentials() {
-        return new AWSStaticCredentialsProvider(
-                new BasicAWSCredentials(config.getAccessKey(), config.getAccessSecret()));
-    }
-
-    /**
-     * 构建 S3 客户端的 Endpoint 配置，包括 region、endpoint
-     *
-     * @return  S3 客户端的 EndpointConfiguration 配置
-     */
-    private AwsClientBuilder.EndpointConfiguration buildEndpointConfiguration() {
-        return new AwsClientBuilder.EndpointConfiguration(config.getEndpoint(),
-                null); // 无需设置 region
+        client = new ObsClient(config.getAccessKey(), config.getAccessSecret(), config.getEndpoint());
     }
 
     /**
@@ -81,15 +54,22 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) throws Exception {
+        PutObjectRequest request = new PutObjectRequest();
+        request.setBucketName(config.getBucket());
+        request.setObjectKey(path); // 相对路径
+        request.setInput(new ByteArrayInputStream(content)); // 文件内容
+
         // 元数据，主要用于设置文件类型
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(type);
-        objectMetadata.setContentLength(content.length); // 如果不设置，会有 “ No content length specified for stream data” 警告日志
+        objectMetadata.setContentLength((long) content.length); // 如果不设置，会有 “ No content length specified for stream data” 警告日志
+        request.setMetadata(objectMetadata);
+
+        // 文件为公共读
+        request.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
+
         // 执行上传
-        client.putObject(config.getBucket(),
-                path, // 相对路径
-                new ByteArrayInputStream(content), // 文件内容
-                objectMetadata);
+        client.putObject(request);
 
         // 拼接返回路径
         return config.getDomain() + "/" + path;
@@ -102,17 +82,7 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
     @Override
     public byte[] getContent(String path) throws Exception {
-        S3Object tempS3Object = client.getObject(config.getBucket(), path);
-        return IoUtil.readBytes(tempS3Object.getObjectContent());
+        ObsObject obsObject = client.getObject(config.getBucket(), path);
+        return IoUtil.readBytes(obsObject.getObjectContent());
     }
-
-    @Override
-    public FilePresignedUrlRespDTO getPresignedObjectUrl(String path) throws Exception {
-        // 设定过期时间为 10 分钟。取值范围：1 秒 ~ 7 天
-        Date expiration = new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(10));
-        // 生成上传 URL
-        String uploadUrl = String.valueOf(client.generatePresignedUrl(config.getBucket(), path, expiration , HttpMethod.PUT));
-        return new FilePresignedUrlRespDTO(uploadUrl, config.getDomain() + "/" + path);
-    }
-
 }
