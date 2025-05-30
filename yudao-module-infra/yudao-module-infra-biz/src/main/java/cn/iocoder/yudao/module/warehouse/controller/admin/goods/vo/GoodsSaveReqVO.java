@@ -5,47 +5,39 @@ import lombok.*;
 import java.util.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import org.springframework.format.annotation.DateTimeFormat;
-import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 仓库货物主新增/修改 Request VO")
 @Data
 public class GoodsSaveReqVO {
 
-    @Schema(description = "货物唯一ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "28766")
+    @Schema(description = "商品唯一标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "30417")
     private Long id;
 
-    @Schema(description = "货物名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "张三")
-    @NotEmpty(message = "货物名称不能为空")
-    private String goodsName;
+    @Schema(description = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "赵六")
+    @NotEmpty(message = "商品名称不能为空")
+    private String name;
 
-    @Schema(description = "当前库存数量", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "当前库存数量不能为空")
+    @Schema(description = "规格型号")
+    private String specification;
+
+    @Schema(description = "库存数量", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "库存数量不能为空")
     private Integer quantity;
 
-    @Schema(description = "仓库位置（例：A-01-005）", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotEmpty(message = "仓库位置（例：A-01-005）不能为空")
-    private String storageLocation;
+    @Schema(description = "计量单位")
+    private String unit;
 
-    @Schema(description = "入库时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "入库时间不能为空")
-    private LocalDateTime storageTime;
+    @Schema(description = "单价（精确到分）", requiredMode = Schema.RequiredMode.REQUIRED, example = "2357")
+    @NotNull(message = "单价（精确到分）不能为空")
+    private BigDecimal price;
 
-    @Schema(description = "最后出库时间")
-    private LocalDateTime lastOutboundTime;
+    @Schema(description = "供应商")
+    private String supplier;
 
-    @Schema(description = "货物状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "货物状态不能为空")
-    private Integer goodsStatus;
+    @Schema(description = "商品分类")
+    private String category;
 
-    @Schema(description = "单件重量（kg）")
-    private BigDecimal weightKg;
-
-    @Schema(description = "单件体积（m³）")
-    private BigDecimal volumeM3;
-
-    @Schema(description = "采购单价", requiredMode = Schema.RequiredMode.REQUIRED, example = "29238")
-    @NotNull(message = "采购单价不能为空")
-    private BigDecimal unitPrice;
+    @Schema(description = "商品描述", example = "你猜")
+    private String description;
 
 }

@@ -19,15 +19,14 @@ public interface GoodsMapper extends BaseMapperX<GoodsDO> {
 
     default PageResult<GoodsDO> selectPage(GoodsPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<GoodsDO>()
-                .likeIfPresent(GoodsDO::getGoodsName, reqVO.getGoodsName())
+                .likeIfPresent(GoodsDO::getName, reqVO.getName())
+                .eqIfPresent(GoodsDO::getSpecification, reqVO.getSpecification())
                 .eqIfPresent(GoodsDO::getQuantity, reqVO.getQuantity())
-                .eqIfPresent(GoodsDO::getStorageLocation, reqVO.getStorageLocation())
-                .betweenIfPresent(GoodsDO::getStorageTime, reqVO.getStorageTime())
-                .betweenIfPresent(GoodsDO::getLastOutboundTime, reqVO.getLastOutboundTime())
-                .eqIfPresent(GoodsDO::getGoodsStatus, reqVO.getGoodsStatus())
-                .eqIfPresent(GoodsDO::getWeightKg, reqVO.getWeightKg())
-                .eqIfPresent(GoodsDO::getVolumeM3, reqVO.getVolumeM3())
-                .eqIfPresent(GoodsDO::getUnitPrice, reqVO.getUnitPrice())
+                .eqIfPresent(GoodsDO::getUnit, reqVO.getUnit())
+                .eqIfPresent(GoodsDO::getPrice, reqVO.getPrice())
+                .eqIfPresent(GoodsDO::getSupplier, reqVO.getSupplier())
+                .eqIfPresent(GoodsDO::getCategory, reqVO.getCategory())
+                .eqIfPresent(GoodsDO::getDescription, reqVO.getDescription())
                 .betweenIfPresent(GoodsDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(GoodsDO::getId));
     }

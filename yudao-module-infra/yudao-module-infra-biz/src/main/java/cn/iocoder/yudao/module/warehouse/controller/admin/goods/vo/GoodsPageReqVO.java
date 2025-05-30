@@ -16,34 +16,29 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 @ToString(callSuper = true)
 public class GoodsPageReqVO extends PageParam {
 
-    @Schema(description = "货物名称", example = "张三")
-    private String goodsName;
+    @Schema(description = "商品名称", example = "赵六")
+    private String name;
 
-    @Schema(description = "当前库存数量")
+    @Schema(description = "规格型号")
+    private String specification;
+
+    @Schema(description = "库存数量")
     private Integer quantity;
 
-    @Schema(description = "仓库位置（例：A-01-005）")
-    private String storageLocation;
+    @Schema(description = "计量单位")
+    private String unit;
 
-    @Schema(description = "入库时间")
-    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private LocalDateTime[] storageTime;
+    @Schema(description = "单价（精确到分）", example = "2357")
+    private BigDecimal price;
 
-    @Schema(description = "最后出库时间")
-    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private LocalDateTime[] lastOutboundTime;
+    @Schema(description = "供应商")
+    private String supplier;
 
-    @Schema(description = "货物状态", example = "1")
-    private Integer goodsStatus;
+    @Schema(description = "商品分类")
+    private String category;
 
-    @Schema(description = "单件重量（kg）")
-    private BigDecimal weightKg;
-
-    @Schema(description = "单件体积（m³）")
-    private BigDecimal volumeM3;
-
-    @Schema(description = "采购单价", example = "29238")
-    private BigDecimal unitPrice;
+    @Schema(description = "商品描述", example = "你猜")
+    private String description;
 
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)

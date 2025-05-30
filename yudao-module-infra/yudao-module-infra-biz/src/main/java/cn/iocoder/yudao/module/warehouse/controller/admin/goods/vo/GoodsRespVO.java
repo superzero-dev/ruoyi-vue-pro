@@ -13,45 +13,41 @@ import com.alibaba.excel.annotation.*;
 @ExcelIgnoreUnannotated
 public class GoodsRespVO {
 
-    @Schema(description = "货物唯一ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "28766")
-    @ExcelProperty("货物唯一ID")
+    @Schema(description = "商品唯一标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "30417")
+    @ExcelProperty("商品唯一标识")
     private Long id;
 
-    @Schema(description = "货物名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "张三")
-    @ExcelProperty("货物名称")
-    private String goodsName;
+    @Schema(description = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "赵六")
+    @ExcelProperty("商品名称")
+    private String name;
 
-    @Schema(description = "当前库存数量", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("当前库存数量")
+    @Schema(description = "规格型号")
+    @ExcelProperty("规格型号")
+    private String specification;
+
+    @Schema(description = "库存数量", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ExcelProperty("库存数量")
     private Integer quantity;
 
-    @Schema(description = "仓库位置（例：A-01-005）", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("仓库位置（例：A-01-005）")
-    private String storageLocation;
+    @Schema(description = "计量单位")
+    @ExcelProperty("计量单位")
+    private String unit;
 
-    @Schema(description = "入库时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("入库时间")
-    private LocalDateTime storageTime;
+    @Schema(description = "单价（精确到分）", requiredMode = Schema.RequiredMode.REQUIRED, example = "2357")
+    @ExcelProperty("单价（精确到分）")
+    private BigDecimal price;
 
-    @Schema(description = "最后出库时间")
-    @ExcelProperty("最后出库时间")
-    private LocalDateTime lastOutboundTime;
+    @Schema(description = "供应商")
+    @ExcelProperty("供应商")
+    private String supplier;
 
-    @Schema(description = "货物状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty("货物状态")
-    private Integer goodsStatus;
+    @Schema(description = "商品分类")
+    @ExcelProperty("商品分类")
+    private String category;
 
-    @Schema(description = "单件重量（kg）")
-    @ExcelProperty("单件重量（kg）")
-    private BigDecimal weightKg;
-
-    @Schema(description = "单件体积（m³）")
-    @ExcelProperty("单件体积（m³）")
-    private BigDecimal volumeM3;
-
-    @Schema(description = "采购单价", requiredMode = Schema.RequiredMode.REQUIRED, example = "29238")
-    @ExcelProperty("采购单价")
-    private BigDecimal unitPrice;
+    @Schema(description = "商品描述", example = "你猜")
+    @ExcelProperty("商品描述")
+    private String description;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("创建时间")

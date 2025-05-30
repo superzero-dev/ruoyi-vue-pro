@@ -2,10 +2,6 @@ package cn.iocoder.yudao.module.warehouse.dal.dataobject.goods;
 
 import lombok.*;
 import java.util.*;
-import java.time.LocalDateTime;
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
-import java.math.BigDecimal;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
@@ -28,45 +24,41 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 public class GoodsDO extends BaseDO {
 
     /**
-     * 货物唯一ID
+     * 商品唯一标识
      */
     @TableId
     private Long id;
     /**
-     * 货物名称
+     * 商品名称
      */
-    private String goodsName;
+    private String name;
     /**
-     * 当前库存数量
+     * 规格型号
+     */
+    private String specification;
+    /**
+     * 库存数量
      */
     private Integer quantity;
     /**
-     * 仓库位置（例：A-01-005）
+     * 计量单位
      */
-    private String storageLocation;
+    private String unit;
     /**
-     * 入库时间
+     * 单价（精确到分）
      */
-    private LocalDateTime storageTime;
+    private BigDecimal price;
     /**
-     * 最后出库时间
+     * 供应商
      */
-    private LocalDateTime lastOutboundTime;
+    private String supplier;
     /**
-     * 货物状态
+     * 商品分类
      */
-    private Integer goodsStatus;
+    private String category;
     /**
-     * 单件重量（kg）
+     * 商品描述
      */
-    private BigDecimal weightKg;
-    /**
-     * 单件体积（m³）
-     */
-    private BigDecimal volumeM3;
-    /**
-     * 采购单价
-     */
-    private BigDecimal unitPrice;
+    private String description;
 
 }
