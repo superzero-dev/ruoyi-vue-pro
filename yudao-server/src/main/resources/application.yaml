@@ -244,6 +244,7 @@ yudao:
   security:
     permit-all_urls:
       - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，不需要登录
+      - /admin-api/warehouse/photo/upload  # 用户板子上传图片，不需要登录
   websocket:
     enable: true # websocket的开关
     path: /infra/ws # 路径
@@ -283,7 +284,7 @@ yudao:
       - /admin-api/pay/notify/** # 支付回调通知，不携带租户编号
       - /jmreport/* # 积木报表，无法携带租户编号
       - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，无法携带租户编号
-      - /app-api/warehouse/photo/** # 用户板子拉取数据，无法携带租户编号
+      - /admin-api/warehouse/photo/** # 用户板子拉取数据，无法携带租户编号
     ignore-tables:
       - system_tenant
       - system_tenant_package
@@ -328,6 +329,7 @@ yudao:
       - rep_demo_jianpiao
       - tmp_report_data_1
       - tmp_report_data_income
+      - warehouse_goods
     ignore-caches:
       - user_role_ids
       - permission_menu_ids

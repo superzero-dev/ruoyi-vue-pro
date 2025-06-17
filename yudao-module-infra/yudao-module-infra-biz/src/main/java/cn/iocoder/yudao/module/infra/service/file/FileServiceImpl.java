@@ -17,6 +17,8 @@ import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.infra.enums.ErrorCodeConstants.FILE_NOT_EXISTS;
 
@@ -42,6 +44,12 @@ public class FileServiceImpl implements FileService {
     @Override
     @SneakyThrows
     public String createFile(String name, String path, byte[] content) {
+        return saveFile(name, path, content).getPath();
+    }
+
+    @Override
+    @SneakyThrows
+    public FileDO saveFile(String name, String path, byte[] content) {
         // 计算默认的 path 名
         String type = FileTypeUtils.getMineType(content, name);
         if (StrUtil.isEmpty(path)) {
@@ -66,7 +74,7 @@ public class FileServiceImpl implements FileService {
         file.setType(type);
         file.setSize(content.length);
         fileMapper.insert(file);
-        return url;
+        return file;
     }
 
     @Override

@@ -31,6 +31,8 @@ public interface FileService {
      */
     String createFile(String name, String path, byte[] content);
 
+    FileDO saveFile(String name, String path, byte[] content);
+
     /**
      * 创建文件
      *
