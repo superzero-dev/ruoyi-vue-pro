@@ -72,12 +72,9 @@
             <version>1.7.25</version>
         </dependency>
         <dependency>
-            <!--            使用时替换为实际路径-->
-            <systemPath>${project.basedir}/libs/java-sdk-core-3.2.6.jar</systemPath>
             <groupId>com.huawei.apigateway</groupId>
             <artifactId>java-sdk-core</artifactId>
-            <version>SDK版本号</version>
-            <scope>system</scope>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.openeuler</groupId>

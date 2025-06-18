@@ -61,17 +61,21 @@ public class WareHouseService  {
             return Boolean.FALSE;
         }
         // 再上传照片到modelArt接口
-        ModelArtsResult result = getModelArtResult(fileData);
+        WordsResult result = getModelArtResult(fileData);
         // 获取最终预测结果
-        String predictedLabel = result.getWordsResult().getPredictedLabel();
+        String predictedLabel = result.getPredictedLabel();
         // 查看是否与结果集匹配
+        boolean isMatch;
         List<String> resultSet = Arrays.stream(configApi.getConfigValueByKey(RESULT_SET).split(",")).toList();
-        String resultSetStr = resultSet.stream().filter(str -> StringUtils.equals(str, predictedLabel))
-                .findFirst()
-                .orElse(null);
-
-
-        return resultSet.contains(predictedLabel);
+        if (StringUtils.isBlank(predictedLabel) || resultSet.isEmpty()) {
+            log.warn("预测结果或结果集为空，无法进行人脸识别");
+            isMatch = Boolean.FALSE;
+        } else {
+            isMatch = resultSet.contains(predictedLabel);
+        }
+        // 修改表数据状态
+        fileService.updateFileWorkResult(fileDO.getId(), isMatch, predictedLabel);
+        return isMatch;
     }
 
     /**
@@ -79,7 +83,7 @@ public class WareHouseService  {
      * @param fileData 文件
      * @throws Exception 异常
      */
-    private ModelArtsResult getModelArtResult(byte[] fileData) throws Exception {
+    private WordsResult getModelArtResult(byte[] fileData) throws Exception {
         Request httpClientRequest = new Request();
         httpClientRequest.setKey(configApi.getConfigValueByKey(AK));
         httpClientRequest.setSecret(configApi.getConfigValueByKey(SK));
@@ -88,24 +92,10 @@ public class WareHouseService  {
         httpClientRequest.addHeader("Content-Type", "application/json");
 
         String fileStr = new String(Base64.encodeBase64(fileData));
-        log.info("文件转换为Base64字符串，fileStr: " + fileStr);
-
-       // String body = "{\"images\":\"" + fileStr + "\"}";
-
-        String body = "{" +
-                "    \"images\": [" +
-                "        {" +
-                "            \"fileName.png\": \"" + fileStr +
-                "        \"}" +
-                "    ]" +
-                "}";
+        String body = "{\"images\":\"" + fileStr + "\"}";
         httpClientRequest.setBody(body);
         // 进行签名校验
         HttpRequestBase signedRequest = Client.sign(httpClientRequest);
-        log.info("调用模型Art人脸识别接口，httpClientRequest: " + JsonUtils.toJsonString(httpClientRequest));
-
-        log.info("调用模型Art人脸识别接口，signedRequest: " + JsonUtils.toJsonString(signedRequest));
-
         // 发送请求
         try (CloseableHttpClient closeableHttpClient = HttpClients.createDefault()) {
             CloseableHttpResponse response = closeableHttpClient.execute(signedRequest);
@@ -115,14 +105,11 @@ public class WareHouseService  {
             String result = EntityUtils.toString(response.getEntity());
             log.info("response info: " + result);
             if (resultCode != 200) {
+                // 如果调用失败
                 throw new RuntimeException("调用大模型失败，结果：" + result);
             }
-            // 转换结果为对象
-            ModelArtsResult modelArtsResult = ModelArtsResult.fromJson(result);
-            if (StringUtils.isNotBlank(modelArtsResult.getErno())) {
-                throw new RuntimeException("调用大模型失败，结果：" + result);
-            }
-            return modelArtsResult;
+            // 如果调用成功，则转换调用结果
+            return JsonUtils.parseObject(result, WordsResult.class);
         } catch (Exception e) {
             log.error("调用模型Art人脸识别接口失败", e);
             throw e;

@@ -51,5 +51,10 @@ public class FileDO extends BaseDO {
      * 文件大小
      */
     private Integer size;
+    /**
+     * 人脸识别结果是否匹配
+     */
+    private Boolean workResult;
 
+    private String workName;
 }

@@ -121,4 +121,13 @@ public class FileServiceImpl implements FileService {
                 object -> object.setConfigId(fileClient.getId()));
     }
 
+    @Override
+    public void updateFileWorkResult(Long id, Boolean workResult, String workName) throws Exception {
+        // 校验文件存在
+        FileDO file = validateFileExists(id);
+        // 更新文件人脸识别结果
+        file.setWorkResult(workResult);
+        file.setWorkName(workName);
+        fileMapper.updateById(file);
+    }
 }

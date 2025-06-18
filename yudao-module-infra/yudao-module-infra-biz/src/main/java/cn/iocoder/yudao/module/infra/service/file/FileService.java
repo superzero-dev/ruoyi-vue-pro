@@ -65,4 +65,13 @@ public interface FileService {
      */
     FilePresignedUrlRespVO getFilePresignedUrl(String path) throws Exception;
 
+    /**
+     * 更新文件的人脸识别结果
+     * @param id 文件编号
+     * @param workResult 人脸识别结果
+     * @param workName 人脸识别结果名称
+     * @throws Exception 异常
+     */
+    void updateFileWorkResult(Long id, Boolean workResult, String workName) throws Exception;
+
 }

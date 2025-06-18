@@ -33,4 +33,10 @@ public class FileRespVO {
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
+    @Schema(description = "人脸识别结果是否匹配", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Boolean workResult;
+
+    @Schema(description = "人脸识别模型结果名称", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String  workName;
+
 }

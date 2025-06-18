@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.infra.service.warehouse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public class WordsResult {
     /**
      * 预测结果
      */
+    @JsonProperty("predicted_label")
     private String predictedLabel;
 
     /**
